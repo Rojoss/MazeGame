@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour {
     public string menuOnStart = "Main";
     private List<string> stack = new List<string>();
 
-    private Dictionary<string, Transform> menus = new Dictionary<string, Transform>();
+    private Dictionary<string, Menu> menus = new Dictionary<string, Menu>();
 
     void Awake() {
         if (Instance != null) {
@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour {
         //Load menus
         Menu[] menus = FindObjectsOfType<Menu>();
         for (int i = 0; i < menus.Length; i++) {
-            registerMenu(menus[i].transform);
+            registerMenu(menus[i]);
         }
 
         //Open first menu
@@ -33,13 +33,10 @@ public class MenuManager : MonoBehaviour {
     /// All menus that have the Monobehaviour of Menu will be loaded on startup.
     /// </summary>
     /// <param name="menu">The menu container/transform to register.</param>
-    public void registerMenu(Transform menu) {
+    public void registerMenu(Menu menu) {
         if (menus.ContainsKey(menu.name.ToLower())) {
             Debug.LogWarning("Trying to register a menu that's already registered. [name=" + menu.name + "]");
             return;
-        }
-        if (!menu.GetComponent<Menu>()) {
-            menu.gameObject.AddComponent<Menu>();
         }
         menus.Add(menu.name.ToLower(), menu);
         menu.gameObject.SetActive(false);
@@ -49,7 +46,7 @@ public class MenuManager : MonoBehaviour {
     /// Unregister a menu from the menu manager.
     /// </summary>
     /// <param name="menu">The menu container/transform to unregister.</param>
-    public void unregisterMenu(Transform menu) {
+    public void unregisterMenu(Menu menu) {
         unregisterMenu(menu.name.ToLower());
     }
 
@@ -68,11 +65,11 @@ public class MenuManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Get a list of all the menu transforms.
+    /// Get a list of all the menu instances.
     /// </summary>
-    /// <returns>List of menu transforms</returns>
-    public List<Transform> getMenus() {
-        return new List<Transform>(menus.Values);
+    /// <returns>List of menu instances</returns>
+    public List<Menu> getMenus() {
+        return new List<Menu>(menus.Values);
     }
 
     /// <summary>
