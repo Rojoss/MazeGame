@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class MenuManager : MonoBehaviour {
@@ -128,7 +129,7 @@ public class MenuManager : MonoBehaviour {
     /// Wrapper method to start the game.
     /// </summary>
     public void StartGame() {
-        //TODO: Implement
+        SceneManager.LoadScene("Game");
     }
 
     /// <summary>
