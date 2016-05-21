@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 using System.Collections;
 
 public class Ladder : MonoBehaviour {
 
     public GameObject ladderObject;
     public Transform climbTarget;
+    public GameObject UI;
 
     private bool climbing = false;
-    private bool onTop = false;
 
     private Transform player;
     private Vector3 playerPos;
@@ -26,20 +27,43 @@ public class Ladder : MonoBehaviour {
             climbing = true;
 
             player = other.transform;
-            other.GetComponent<Rigidbody>().useGravity = false;
             playerPos = other.transform.position;
+            other.GetComponent<Rigidbody>().useGravity = false;
+            player.GetComponent<RigidbodyFirstPersonController>().inputEnabled = false;
 
             StartCoroutine(Climb());
         }
     }
 
     private IEnumerator Climb() {
-        for (float p = 0; p < 1; p += 0.01f) {
+        for (float p = 0; p < 1; p += 0.02f) {
             yield return new WaitForFixedUpdate();
             player.transform.position = Vector3.Lerp(playerPos, climbTarget.position, p);
         }
+        UI.SetActive(true);
+    }
+
+    private IEnumerator ClimbDown() {
+        for (float p = 0; p < 1; p += 0.03f) {
+            yield return new WaitForFixedUpdate();
+            player.transform.position = Vector3.Lerp(climbTarget.position, playerPos, p);
+        }
         climbing = false;
         player.GetComponent<Rigidbody>().useGravity = true;
+        player.GetComponent<RigidbodyFirstPersonController>().inputEnabled = true;
+    }
+
+    public void BackDown() {
+        UI.SetActive(false);
+        StartCoroutine(ClimbDown());
+    }
+
+    public void StepOver() {
+        UI.SetActive(false);
+        climbing = false;
+        player.GetComponent<Rigidbody>().useGravity = true;
+        player.Translate(player.forward * 2);
+        player.GetComponent<RigidbodyFirstPersonController>().inputEnabled = true;
     }
 
 }

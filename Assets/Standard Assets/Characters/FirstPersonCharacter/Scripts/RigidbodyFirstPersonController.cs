@@ -81,6 +81,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public MovementSettings movementSettings = new MovementSettings();
         public MouseLook mouseLook = new MouseLook();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
+        public bool inputEnabled = true;
 
 
         private Rigidbody m_RigidBody;
@@ -139,6 +140,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void FixedUpdate()
         {
+            if (!inputEnabled) {
+                return;
+            }
             GroundCheck();
             Vector2 input = GetInput();
 
