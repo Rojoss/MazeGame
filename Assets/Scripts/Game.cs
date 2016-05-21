@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class Game : MonoBehaviour {
@@ -21,6 +20,10 @@ public class Game : MonoBehaviour {
         StartGame();
     }
 
+    public GameState GetState() {
+        return state;
+    }
+
     public void StartGame() {
         if (state != GameState.INIT) {
             Debug.LogWarning("Trying to start a game that hasn't been initialized!");
@@ -39,14 +42,19 @@ public class Game : MonoBehaviour {
         timer.StartTimer();
     }
 
-    public void EndGame() {
+    public void EndGame(bool won) {
         if (state != GameState.STARTED) {
             Debug.LogWarning("Trying to end a game that hasn't started!");
             return;
         }
         state = GameState.ENDED;
 
-        //TODO: Show game over screen
+        timer.EndTimer();
+        fader.FadeIn(2f);
+
+        Debug.Log("You " + (won ? "won!" : "lost!"));
+
+        //TODO: Show game over/win screen
     }
 
     public void Restart() {
