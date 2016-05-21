@@ -23,6 +23,10 @@ public class RiddlePopup : Popup {
         gameObject.SetActive(false);
     }
 
+    void OnDestroy() {
+        Instance = null;
+    }
+
     public void setRiddle(Riddle riddle) {
         this.riddle = riddle;
         riddleText.text = riddle.riddle;

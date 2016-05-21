@@ -20,6 +20,10 @@ public class Game : MonoBehaviour {
         StartGame();
     }
 
+    void OnDestroy() {
+        Instance = null;
+    }
+
     public GameState GetState() {
         return state;
     }
