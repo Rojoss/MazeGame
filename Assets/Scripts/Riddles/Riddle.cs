@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Riddle : MonoBehaviour {
 
@@ -14,6 +14,8 @@ public class Riddle : MonoBehaviour {
     [HideInInspector]
     public string instruction;
 
+    private Dictionary<string, int> previousAnswers = new Dictionary<string, int>();
+
     void OnMouseDown() {
         RiddlePopup.Instance.setRiddle(this);
         RiddlePopup.Instance.Open();
@@ -27,19 +29,26 @@ public class Riddle : MonoBehaviour {
         }
         for (int i = 0; i < answers.Length; i++) {
             if (answers[i].Equals(answer)) {
-                onAnswer(true);
+                onAnswer(answer, true);
                 return;
             }
         }
-        onAnswer(false);
+        onAnswer(answer, false);
     }
 
-    private void onAnswer(bool correct) {
-        if (correct) {
-            instruction = correctInstruction;
+    private void onAnswer(string answer, bool correct) {
+        if (previousAnswers.ContainsKey(answer)) {
+            instruction = wrongInstructions[previousAnswers[answer]];
         } else {
-            instruction = wrongInstructions[Random.Range(0, wrongInstructions.Length)];
+            if (correct) {
+                instruction = correctInstruction;
+            } else {
+                int r = Random.Range(0, wrongInstructions.Length);
+                previousAnswers.Add(answer, r);
+                instruction = wrongInstructions[r];
+            }
         }
+        
         RiddlePopup.Instance.setRiddle(this);
     }
 }
