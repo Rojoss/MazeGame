@@ -44,4 +44,13 @@ public abstract class Popup : MonoBehaviour {
     public abstract void onOpen();
 
     public abstract void onClose();
+
+    void Update() {
+        if (current == null) {
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Close();
+        }
+    }
 }

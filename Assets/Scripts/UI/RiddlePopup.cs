@@ -6,7 +6,9 @@ using System;
 public class RiddlePopup : Popup {
 
     public Text riddleText;
+    public Text tip;
     public InputField answerInput;
+    public Text instruction;
 
     private Riddle riddle;
 
@@ -24,6 +26,9 @@ public class RiddlePopup : Popup {
     public void setRiddle(Riddle riddle) {
         this.riddle = riddle;
         riddleText.text = riddle.riddle;
+        tip.text = riddle.tip;
+        answerInput.text = riddle.answer;
+        instruction.text = riddle.instruction;
     }
 
     public string getInput() {
@@ -41,8 +46,10 @@ public class RiddlePopup : Popup {
     }
 
     public void reset() {
-        riddleText.text = "???";
+        riddleText.text = "";
+        tip.text = "";
         answerInput.text = "";
+        instruction.text = "";
     }
 
     public void resetInput() {
