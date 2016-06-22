@@ -5,7 +5,7 @@ using System.Collections;
 public abstract class Popup : MonoBehaviour {
 
     private static Popup current = null;
-    public RigidbodyFirstPersonController playerController;
+    public FirstPersonController playerController;
 
     public void Open() {
         if (isOpen()) {

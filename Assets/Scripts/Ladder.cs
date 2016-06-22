@@ -29,7 +29,7 @@ public class Ladder : MonoBehaviour {
             player = other.transform;
             playerPos = other.transform.position;
             other.GetComponent<Rigidbody>().useGravity = false;
-            player.GetComponent<RigidbodyFirstPersonController>().inputEnabled = false;
+            player.GetComponent<FirstPersonController>().inputEnabled = false;
 
             StartCoroutine(Climb());
         }
@@ -50,7 +50,7 @@ public class Ladder : MonoBehaviour {
         }
         climbing = false;
         player.GetComponent<Rigidbody>().useGravity = true;
-        player.GetComponent<RigidbodyFirstPersonController>().inputEnabled = true;
+        player.GetComponent<FirstPersonController>().inputEnabled = true;
     }
 
     public void BackDown() {
@@ -63,7 +63,7 @@ public class Ladder : MonoBehaviour {
         climbing = false;
         player.GetComponent<Rigidbody>().useGravity = true;
         player.Translate(player.forward * 2);
-        player.GetComponent<RigidbodyFirstPersonController>().inputEnabled = true;
+        player.GetComponent<FirstPersonController>().inputEnabled = true;
     }
 
 }
