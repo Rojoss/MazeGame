@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Game : MonoBehaviour {
 
@@ -7,6 +9,9 @@ public class Game : MonoBehaviour {
 
     public Fader fader;
     public Timer timer;
+
+    public Sprite gameOverScreen;
+    public Sprite winScreen;
 
     public static Game Instance { get; private set; }
 
@@ -54,11 +59,12 @@ public class Game : MonoBehaviour {
         state = GameState.ENDED;
 
         timer.EndTimer();
+        fader.GetComponent<Image>().sprite = (won ? winScreen : gameOverScreen);
+        fader.fadeColor = Color.white;
+        fader.black.color = Color.white;
         fader.FadeIn(2f);
 
-        Debug.Log("You " + (won ? "won!" : "lost!"));
-
-        //TODO: Show game over/win screen
+        FindObjectOfType<FirstPersonController>().inputEnabled = false;
     }
 
     public void Restart() {
